@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <h2>Input 3 Ingredients</h2>
+
+    <p style="text-align:center;font-weight:bold;">
+        학번: 2020810041 / 이름: 손영준
+    </p>
+
+    <form action="/generate_recipe" method="post">
+        <!-- 3가지 재료 -->
+        <input type="text" name="ingredient" placeholder="Ingredient 1" required>
+        <input type="text" name="ingredient" placeholder="Ingredient 2" required>
+        <input type="text" name="ingredient" placeholder="Ingredient 3" required>
+
+        <!-- Cuisine 드롭다운 -->
+        <label class="subheading" for="cuisine">Choose a cuisine:</label>
+        <select name="cuisine" id="cuisine">
+            {% for cuisine in cuisines %}
+                <option value="{{ cuisine|lower|replace(' ','_') }}">{{ cuisine }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Language 드롭다운 ★추가★ -->
+        <label class="subheading" for="language">Choose a language:</label>
+        <select name="language" id="language">
+            {% for lang_name, lang_code in languages.items() %}
+                <option value="{{ lang_name }}">{{ lang_name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Dietary-restriction 체크박스 -->
+        <label class="subheading" for="restrictions">Dietary Restrictions:</label>
+        <div class="checkbox-container">
+            {% for restriction in dietary_restrictions %}
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox"
+                               name="restrictions"
+                               value="{{ restriction|lower|replace(' ','_') }}">
+                        {{ restriction }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <input type="submit" value="Generate Recipe">
+    </form>
+</body>
+</html>
